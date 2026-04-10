@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Stackly — Insights & Tech Tutorials from Salem</title>
+    <meta name="description" content="Read the latest articles, tutorials and career tips from Stackly's expert mentors. Stay ahead in tech, design, and development.">
+
+    <!-- Local Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Manrope';
+            src: url('./fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSg.woff2') format('woff2');
+            font-weight: 200 800;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* ============================================================
+           RESET & CSS VARIABLES
+        ============================================================ */
+        :root {
+            --brand-dark: #000000;
+            --text-main: #000000;
+            --text-muted: #666666;
+            --text-light: #999999;
+            --bg-light: #f5f5f5;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --border-dark: #d1d5db;
+            --transition: all 0.3s ease;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-pill: 999px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: var(--text-main);
+            background-color: var(--white);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        /* ============================================================
+           BUTTON
+        ============================================================ */
+        .button {
+            height: 50px;
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0 32px;
+            position: relative;
+            background-color: transparent;
+            cursor: pointer;
+            border: 2px solid var(--brand-dark);
+            overflow: hidden;
+            border-radius: var(--radius-pill);
+            color: var(--brand-dark);
+            transition: all 0.5s ease-in-out;
+        }
+        .btn-txt { z-index: 1; font-weight: 800; letter-spacing: 2px; color: inherit; transition: inherit; }
+        .button.type1::after { content: ""; position: absolute; left: 0; top: 0; transition: all 0.5s ease-in-out; background-color: var(--brand-dark); border-radius: var(--radius-pill); visibility: hidden; height: 10px; width: 10px; z-index: -1; }
+        .button:hover { box-shadow: 1px 1px 20px var(--brand-dark); color: var(--white) !important; border-color: var(--brand-dark); }
+        .button.type1:hover::after { visibility: visible; transform: scale(100) translateX(2px); }
+        .button.dark-bg { border-color: rgba(255,255,255,0.3); color: var(--white); }
+        .button.dark-bg.type1::after { background-color: var(--white); }
+        .button.dark-bg:hover { box-shadow: 1px 1px 20px rgba(255,255,255,0.2); color: var(--brand-dark) !important; }
+        .glass-panel { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+
+        /* ============================================================
+           NAVBAR (identical to index)
+        ============================================================ */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 150; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); padding: 24px 24px 0 24px; pointer-events: none; }
+        .navbar-wrapper { background-color: var(--brand-dark); border-radius: 100px; padding: 8px 24px; max-width: 1280px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 10px 30px rgba(0,0,0,0.3); pointer-events: auto; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .navbar.scrolled { padding-top: 16px; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; height: 56px; width: 100%; }
+        .logo { display: flex; align-items: center; gap: 12px; color: var(--white); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; }
+        .nav-links { display: none; gap: 40px; align-items: center; }
+        .nav-link { position: relative; color: var(--white); font-weight: 500; font-size: 0.95rem; opacity: 0.9; transition: opacity 0.3s; }
+        .nav-link:hover, .nav-link.active { opacity: 1; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: currentColor; transition: width 0.3s ease; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-actions { display: none; }
+        .navbar .nav-actions .button { border-color: rgba(255,255,255,0.2); color: var(--white); }
+        .navbar .nav-actions .button.type1::after { background-color: var(--white); }
+        .navbar .nav-actions .button:hover { color: var(--brand-dark); box-shadow: 1px 1px 20px rgba(255,255,255,0.2); }
+
+        .mobile-menu-btn { display: flex; flex-direction: column; justify-content: center; gap: 6px; width: 48px; height: 48px; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); align-items: center; z-index: 51; transition: all 0.3s ease; pointer-events: auto; cursor: pointer; }
+        .hamburger-line { width: 20px; height: 2px; background-color: var(--white); border-radius: 2px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); transform-origin: center; }
+        .mobile-menu-btn.is-active { background: rgba(255,255,255,0.15); border-color: transparent; }
+        .mobile-menu-btn.is-active .line-1 { transform: translateY(8px) rotate(45deg); }
+        .mobile-menu-btn.is-active .line-2 { opacity: 0; transform: translateX(10px); }
+        .mobile-menu-btn.is-active .line-3 { transform: translateY(-8px) rotate(-45deg); }
+        @media (min-width: 1024px) { .nav-links { display: flex; } .nav-actions { display: block; } .mobile-menu-btn { display: none; } }
+
+        .mobile-menu { position: fixed; inset: 0; background-color: var(--brand-dark); z-index: 40; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; gap: 32px; visibility: hidden; opacity: 0; clip-path: circle(0% at 100% 0%); transition: opacity 0.5s ease, clip-path 0.5s ease, visibility 0s linear 0.5s; }
+        .mobile-menu.active { visibility: visible; opacity: 1; clip-path: circle(150% at 100% 0%); transition: opacity 0.5s ease, clip-path 0.5s ease, visibility 0s linear 0s; }
+        .mobile-menu a { color: var(--white); font-size: 2rem; font-weight: 600; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .mobile-menu.active a { opacity: 1; transform: translateY(0); }
+        .mobile-menu.active a:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu.active a:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-menu.active a:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-menu.active a:nth-child(4) { transition-delay: 0.4s; }
+        .mobile-menu.active a:nth-child(5) { transition-delay: 0.5s; }
+        .mobile-menu.active a:nth-child(6) { transition-delay: 0.6s; }
+
+        /* ============================================================
+           SCROLL ANIMATIONS
+        ============================================================ */
+        .animate-on-scroll { opacity: 0; transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+        .fade-up    { transform: translateY(40px); }
+        .fade-down  { transform: translateY(-40px); }
+        .fade-left  { transform: translateX(40px); }
+        .fade-right { transform: translateX(-40px); }
+        .scale-in   { transform: scale(0.92); }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translate(0) scale(1); }
+        .delay-100 { transition-delay: 100ms; } .delay-200 { transition-delay: 200ms; } .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; } .delay-500 { transition-delay: 500ms; } .delay-600 { transition-delay: 600ms; }
+
+        /* ============================================================
+           HERO
+        ============================================================ */
+        .hero {
+            position: relative;
+            padding: 180px 0 100px;
+            min-height: 72vh;
+            display: flex; align-items: center;
+            background: radial-gradient(circle at top right, #1a1a1a 0%, #000000 60%);
+            color: var(--white);
+            overflow: hidden;
+        }
+        .glow-blob { position: absolute; filter: blur(90px); border-radius: 50%; opacity: 0.06; z-index: 0; pointer-events: none; }
+        .blob-1 { background: #fff; width: 500px; height: 500px; top: -160px; right: 5%; }
+        .blob-2 { background: #fff; width: 280px; height: 280px; bottom: 0; left: -50px; }
+        .blob-3 { background: #fff; width: 200px; height: 200px; top: 40%; right: 35%; opacity: 0.03; }
+
+        .hero-inner { position: relative; z-index: 10; text-align: center; max-width: 850px; margin: 0 auto; }
+
+        .hero-badge { display: inline-flex; align-items: center; gap: 12px; padding: 4px 16px 4px 4px; border-radius: var(--radius-pill); margin-bottom: 28px; }
+        .badge-tag { background-color: var(--white); color: var(--brand-dark); font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: 1px; }
+        .badge-label { font-size: 0.875rem; color: rgba(255,255,255,0.75); }
+
+        .hero-title { font-size: clamp(2.8rem, 8vw, 5rem); font-weight: 800; line-height: 1.05; margin-bottom: 20px; letter-spacing: -0.04em; }
+        .highlight-text { font-style: italic; font-family: serif; text-shadow: 0 0 30px rgba(255,255,255,0.25); }
+
+        .hero-desc { font-size: clamp(1rem, 2vw, 1.15rem); color: rgba(255,255,255,0.6); max-width: 580px; margin: 0 auto 44px; line-height: 1.7; }
+
+        /* ---- Global stats bar ---- */
+        .hero-stats-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 36px; }
+        .hero-stat { padding: 0 32px; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); }
+        .hero-stat:last-child { border-right: none; }
+        .hero-stat-num { font-size: clamp(1.6rem,4vw, 2.4rem); font-weight: 800; letter-spacing: -2px; display: block; margin-bottom: 2px; }
+        .hero-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        @media (max-width: 600px) { .hero-stat { padding: 12px 18px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); } .hero-stats-bar { flex-direction: column; } }
+
+        /* ============================================================
+           BLOG-SPECIFIC LAYOUT
+        ============================================================ */
+
+        /* ---- Category Filter Strip ---- */
+        .cat-strip { padding: 24px 0; border-bottom: 1px solid var(--border); background: var(--white); position: relative; }
+        .cat-strip.shadowed { box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+        .cat-inner { display: flex; align-items: center; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+        .cat-inner::-webkit-scrollbar { display: none; }
+        .cat-btn { padding: 8px 22px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: transparent; color: var(--text-muted); font-size: 0.875rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.28s ease; flex-shrink: 0; }
+        .cat-btn:hover { border-color: var(--brand-dark); color: var(--brand-dark); }
+        .cat-btn.active { background: var(--brand-dark); color: var(--white); border-color: var(--brand-dark); }
+
+        /* ---- Blog Main Grid ---- */
+        .blog-layout { padding: 72px 0 100px; }
+
+        .blog-grid-wrap { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        @media (min-width: 1024px) { .blog-grid-wrap { grid-template-columns: 2fr 1fr; align-items: start; } }
+
+        /* ---- FEATURED POST ---- */
+        .featured-post {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--brand-dark);
+            color: var(--white);
+            display: grid;
+            grid-template-columns: 1fr;
+            min-height: 520px;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 40px;
+        }
+        @media (min-width: 768px) { .featured-post { grid-template-columns: 1fr 1fr; } }
+
+        .fp-image { position: relative; overflow: hidden; min-height: 300px; }
+        .fp-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .featured-post:hover .fp-image img { transform: scale(1.06); }
+        .fp-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, transparent 100%); }
+
+        .fp-content { padding: clamp(32px,5vw,56px); display: flex; flex-direction: column; justify-content: center; }
+        .fp-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tag-chip { display: inline-block; padding: 4px 14px; border-radius: var(--radius-pill); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.9); }
+        .tag-chip.solid { background: var(--white); color: var(--brand-dark); border-color: transparent; }
+        .fp-read-time { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+        .fp-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.025em; }
+        .fp-excerpt { font-size: 1rem; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 32px; max-width: 480px; }
+        .fp-author { display: flex; align-items: center; gap: 12px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; margin-top: auto; }
+        .fp-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2); }
+        .fp-author-name { font-size: 0.875rem; font-weight: 700; }
+        .fp-author-date { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+
+        .btn-read {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 24px;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            border-radius: var(--radius-pill);
+            color: var(--white);
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            width: fit-content;
+            margin-bottom: 28px;
+        }
+        .btn-read i { width: 14px; height: 14px; transition: transform 0.3s; }
+        .btn-read:hover { background: var(--white); color: var(--brand-dark); border-color: transparent; }
+        .btn-read:hover i { transform: translateX(4px); }
+
+        /* ---- POSTS GRID ---- */
+        .posts-section { margin-bottom: 64px; }
+        .posts-grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+        @media (min-width: 640px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 900px) { .posts-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        /* ---- BLOG CARD ---- */
+        .blog-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease, border-color 0.3s;
+            cursor: pointer;
+        }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.09); border-color: var(--border-dark); }
+
+        .bc-thumb { position: relative; overflow: hidden; aspect-ratio: 16/9; }
+        .bc-thumb img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%); transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .blog-card:hover .bc-thumb img { transform: scale(1.07); }
+        .bc-category { position: absolute; top: 14px; left: 14px; padding: 4px 12px; border-radius: var(--radius-pill); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .cat-tech     { background: #f0f9ff; color: #0369a1; }
+        .cat-design   { background: #fdf4ff; color: #7e22ce; }
+        .cat-career   { background: #f0fdf4; color: #166534; }
+        .cat-tutorial { background: #fff7ed; color: #9a3412; }
+        .cat-ai       { background: #f8fafc; color: #334155; }
+
+        .bc-body { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; }
+        .bc-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 0.75rem; color: var(--text-light); font-weight: 500; }
+        .bc-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-dark); }
+        .bc-title { font-size: 1.05rem; font-weight: 800; line-height: 1.3; margin-bottom: 10px; letter-spacing: -0.01em; color: var(--brand-dark); transition: color 0.3s; }
+        .blog-card:hover .bc-title { color: #333; }
+        .bc-excerpt { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; flex-grow: 1; }
+        .bc-footer { display: flex; align-items: center; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .bc-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); flex-shrink: 0; }
+        .bc-author-name { font-size: 0.8rem; font-weight: 700; }
+        .bc-author-date { font-size: 0.72rem; color: var(--text-light); }
+        .bc-arrow { margin-left: auto; color: var(--text-light); transition: transform 0.3s, color 0.3s; }
+        .blog-card:hover .bc-arrow { transform: translate(3px,-3px); color: var(--brand-dark); }
+
+        /* ---- SIDEBAR ---- */
+        .sidebar { display: flex; flex-direction: column; gap: 32px; }
+
+        .sidebar-widget { background: var(--bg-light); border-radius: var(--radius-lg); padding: 28px; border: 1px solid var(--border); }
+        .widget-title { font-size: 1rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.01em; }
+
+        /* Newsletter widget */
+        .newsletter-widget { background: var(--brand-dark); color: var(--white); }
+        .newsletter-widget .widget-title { color: var(--white); }
+        .newsletter-widget p { font-size: 0.875rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 20px; }
+        .newsletter-form { display: flex; flex-direction: column; gap: 12px; }
+        .newsletter-input {
+            height: 46px; width: 100%;
+            padding: 0 16px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.07);
+            color: var(--white);
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+        .newsletter-input:focus { border-color: rgba(255,255,255,0.4); }
+        .newsletter-submit {
+            height: 46px; width: 100%;
+            border-radius: var(--radius-pill);
+            background: var(--white);
+            color: var(--brand-dark);
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.875rem; font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .newsletter-submit:hover { background: #e5e5e5; }
+
+        /* Popular posts widget */
+        .popular-list { display: flex; flex-direction: column; gap: 16px; }
+        .popular-item { display: flex; gap: 14px; align-items: flex-start; cursor: pointer; }
+        .popular-thumb { width: 68px; height: 56px; object-fit: cover; border-radius: 10px; flex-shrink: 0; transition: transform 0.3s; filter: grayscale(10%); }
+        .popular-item:hover .popular-thumb { transform: scale(1.04); }
+        .popular-info { flex: 1; }
+        .popular-title { font-size: 0.85rem; font-weight: 700; line-height: 1.3; color: var(--brand-dark); margin-bottom: 4px; transition: color 0.3s; }
+        .popular-item:hover .popular-title { color: #444; }
+        .popular-meta { font-size: 0.72rem; color: var(--text-light); font-weight: 500; }
+
+        /* Tags widget */
+        .tags-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag-pill { padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border-dark); font-size: 0.75rem; font-weight: 600; color: var(--text-muted); background: var(--white); cursor: pointer; transition: all 0.25s; }
+        .tag-pill:hover { border-color: var(--brand-dark); color: var(--brand-dark); background: #f5f5f5; }
+
+        /* Mentor widget */
+        .mentor-widget-list { display: flex; flex-direction: column; gap: 14px; }
+        .mentor-mini { display: flex; align-items: center; gap: 12px; }
+        .mentor-mini-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); flex-shrink: 0; }
+        .mentor-mini-name { font-size: 0.9rem; font-weight: 700; }
+        .mentor-mini-role { font-size: 0.75rem; color: var(--text-muted); }
+        .mentor-mini-arrow { margin-left: auto; color: var(--text-light); }
+
+        /* ---- LOAD MORE ---- */
+        .load-more-wrap { text-align: center; margin-top: 48px; }
+
+        /* ============================================================
+           FULL-WIDTH DARK QUOTE BAND
+        ============================================================ */
+        .quote-band {
+            background: var(--brand-dark);
+            color: var(--white);
+            padding: clamp(64px,12vw,100px) 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .quote-blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+        .qb-1 { background: #fff; opacity: 0.04; width: 400px; height: 400px; top: -100px; right: -60px; }
+        .qb-2 { background: #fff; opacity: 0.03; width: 300px; height: 300px; bottom: -60px; left: -60px; }
+        .quote-inner { position: relative; z-index: 10; max-width: 820px; margin: 0 auto; }
+        .quote-mark { font-size: 6rem; line-height: 0.6; font-family: serif; color: rgba(255,255,255,0.15); margin-bottom: 24px; display: block; }
+        .quote-text { font-size: clamp(1.5rem,3.5vw,2.4rem); font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; margin-bottom: 24px; }
+        .quote-author { font-size: 0.875rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+
+        /* ============================================================
+           NEWSLETTER SECTION (full-width)
+        ============================================================ */
+        .newsletter-section { padding: clamp(64px,12vw,96px) 0; background: var(--bg-light); }
+        .newsletter-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+        .newsletter-inner .section-label { display: inline-block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 12px; }
+        .newsletter-inner h2 { font-size: clamp(2rem,5vw,3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+        .newsletter-inner p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 36px; line-height: 1.6; }
+        .nl-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+        .nl-input { flex: 1; height: 52px; min-width: 220px; padding: 0 20px; border-radius: var(--radius-pill); border: 1.5px solid var(--border-dark); background: var(--white); font-family: 'Manrope', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.3s, box-shadow 0.3s; }
+        .nl-input:focus { border-color: var(--brand-dark); box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+        .nl-btn { height: 52px; padding: 0 28px; border-radius: var(--radius-pill); background: var(--brand-dark); color: var(--white); font-family: 'Manrope', sans-serif; font-size: 0.875rem; font-weight: 700; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .nl-btn:hover { background: #222; }
+        .nl-note { font-size: 0.78rem; color: var(--text-light); margin-top: 14px; }
+
+        /* ============================================================
+           FOOTER (identical to index)
+        ============================================================ */
+        .footer { background-color: var(--brand-dark); color: var(--white); position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.1); padding-bottom: 0; }
+        .footer-top { display: grid; grid-template-columns: 1fr; gap: clamp(32px,6vw,48px); padding-top: clamp(64px,12vw,96px); padding-bottom: clamp(48px,10vw,64px); }
+        @media (min-width: 640px)  { .footer-top { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .footer-top { grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 24px; } }
+        .footer-block h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 24px; color: var(--white); }
+        .footer-block p  { font-size: 1rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 24px; }
+        .footer-block p strong { font-weight: 700; color: var(--white); display: block; margin-bottom: 8px; }
+        .footer-block a  { display: block; font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 16px; transition: color 0.2s; }
+        .footer-block a:hover { color: var(--white); }
+        .footer-massive { position: relative; text-align: center; width: 100%; padding-top: 48px; background-color: var(--brand-dark); }
+        .footer-massive-text { font-size: clamp(5rem,23vw,25rem); font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin: 0; background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; user-select: none; }
+        .footer-bottom { position: absolute; bottom: 24px; left: 0; width: 100%; text-align: center; font-size: 0.875rem; color: rgba(255,255,255,0.5); font-weight: 500; z-index: 10; }
+
+        /* ============================================================
+           EMPTY STATE
+        ============================================================ */
+        .empty-state { grid-column: 1/-1; text-align: center; padding: 72px 24px; display: none; }
+        .empty-state.show { display: block; }
+        .empty-state h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+        .empty-state p   { color: var(--text-muted); }
+
+        /* ============================================================
+           READING-PROGRESS BAR
+        ============================================================ */
+        #progress-bar {
+            position: fixed; top: 0; left: 0;
+            height: 3px; width: 0%;
+            background: var(--white);
+            z-index: 999;
+            transition: width 0.1s linear;
+        }
+
+        /* ============================================================
+           SECTION LABEL HELPER
+        ============================================================ */
+        .section-eyebrow { margin-bottom: 48px; }        /* Footer Socials - Premium Redesign */
+        .social-strip-footer { display: flex; gap: 14px; margin-top: 12px; padding: 0; }
+        .social-btn-footer { 
+            width: 42px; height: 42px; border-radius: 50%; 
+            border: 1px solid rgba(255,255,255,0.15); 
+            display: flex !important; align-items: center; justify-content: center; 
+            color: rgba(255,255,255,0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            background: rgba(255,255,255,0.03); 
+            margin-bottom: 0 !important; padding: 0 !important; 
+            text-decoration: none !important;
+        }
+        .social-btn-footer:hover { 
+            background: rgba(255,255,255,0.1); 
+            color: #ffffff !important; 
+            border-color: rgba(255,255,255,0.4); 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .social-btn-footer svg { width: 19px; height: 19px; color: inherit; display: block; flex-shrink: 0; transition: transform 0.3s; }
+        .social-btn-footer:hover svg { transform: scale(1.1); }
+        .social-label-footer { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-top: 24px; margin-bottom: 12px; }
+
+ 
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- ====================== NAVBAR ====================== -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-wrapper">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <img src="whitelogo.webp" alt="Stackly Logo" style="height:32px;width:auto;">
+                </a>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="courses.html" class="nav-link">Course</a>
+                    <a href="blog.html" class="nav-link active">Blog</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="login.html" class="button type1"><span class="btn-txt">Login</span></a>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                    <span class="hamburger-line line-1"></span>
+                    <span class="hamburger-line line-2"></span>
+                    <span class="hamburger-line line-3"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="courses.html">Courses</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" class="button type1" style="margin-top: 16px;"><span class="btn-txt">Login</span></a>
+    </div>
+
+    <!-- ====================== HERO ====================== -->
+    <header class="hero">
+        <div class="glow-blob blob-1"></div>
+        <div class="glow-blob blob-2"></div>
+        <div class="glow-blob blob-3"></div>
+
+        <div class="container">
+            <div class="hero-inner">
+                <div class="hero-badge glass-panel animate-on-scroll fade-down">
+                    <span class="badge-tag">Blog</span>
+                    <span class="badge-label">Insights, tutorials & career stories</span>
+                </div>
+
+                <h1 class="hero-title animate-on-scroll fade-up delay-100">
+                    Ideas that <span class="highlight-text">fuel</span><br>great careers
+                </h1>
+
+                <p class="hero-desc animate-on-scroll fade-up delay-200">
+                    Deep-dives, tutorials, and candid career stories written by Stackly mentors and alumni — all free, no paywall, no fluff.
+                </p>
+
+                <div class="hero-stats-bar animate-on-scroll fade-up delay-300">
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">120+</span>
+                        <span class="hero-stat-label">Articles Published</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">8k+</span>
+                        <span class="hero-stat-label">Monthly Readers</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">6</span>
+                        <span class="hero-stat-label">Expert Writers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ====================== CATEGORY FILTER ====================== -->
+    <div class="cat-strip" id="cat-strip">
+        <div class="container">
+            <div class="cat-inner" id="cat-bar">
+                <button class="cat-btn active" data-cat="all">All Posts</button>
+                <button class="cat-btn" data-cat="tech">Tech</button>
+                <button class="cat-btn" data-cat="design">Design</button>
+                <button class="cat-btn" data-cat="career">Career</button>
+                <button class="cat-btn" data-cat="tutorial">Tutorials</button>
+                <button class="cat-btn" data-cat="ai">AI & Future</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================== BLOG MAIN LAYOUT ====================== -->
+    <main class="blog-layout">
+        <div class="container">
+
+            <!-- ===== FEATURED POST ===== -->
+            <div class="featured-post animate-on-scroll scale-in" data-cat="tech" id="featured-post">
+                <div class="fp-image">
+                    <img src="images/computer science.webp" alt="Featured post">
+                </div>
+                <div class="fp-content">
+                    <div class="fp-meta">
+                        <span class="tag-chip solid">Featured</span>
+                        <span class="tag-chip">Tech</span>
+                        <span class="fp-read-time">8 min read</span>
+                    </div>
+                    <h2 class="fp-title">The JavaScript Features Every Frontend Developer Must Know in 2026</h2>
+                    <p class="fp-excerpt">From pattern matching to temporal API — the JS landscape has changed dramatically. We break down the 12 features that will define modern web development this year.</p>
+                    <a href="404.html" class="btn-read">Read Article <i data-lucide="arrow-right"></i></a>
+                    <div class="fp-author">
+                        <img src="images/c1.webp" class="fp-avatar" alt="Miles M.">
+                        <div>
+                            <div class="fp-author-name">Miles M.</div>
+                            <div class="fp-author-date">April 8, 2026 · 8 min read</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== MAIN 2-COLUMN LAYOUT ===== -->
+            <div class="blog-grid-wrap">
+
+                <!-- ===== LEFT: POSTS GRID ===== -->
+                <div>
+                    <div class="section-eyebrow animate-on-scroll fade-right">
+                        <span class="section-label">Latest Posts</span>
+                        <h2 class="section-title">Fresh from the <span style="font-style:italic;font-family:serif;">team</span></h2>
+                    </div>
+
+                    <div class="posts-grid" id="posts-grid">
+
+                        <!-- POST 1 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-100" data-cat="design">
+                            <div class="bc-thumb">
+                                <img src="images/ui.webp" alt="UI Design">
+                                <span class="bc-category cat-design">Design</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Priya R.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Apr 5, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>5 min</span>
+                                </div>
+                                <h3 class="bc-title">10 UI Micro-interaction Patterns That Make Users Love Your App</h3>
+                                <p class="bc-excerpt">The tiny details are what separate good products from great ones. A deep-dive into micro-interactions that convert casual users into loyal fans.</p>
+                                <div class="bc-footer">
+                                    <img src="images/c2.webp" class="bc-avatar" alt="Priya">
+                                    <div>
+                                        <div class="bc-author-name">Priya R.</div>
+                                        <div class="bc-author-date">Head of Education</div>
+                                    </div>
+                                    <a href="404.html" class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 2 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-200" data-cat="career">
+                            <div class="bc-thumb">
+                                <img src="images/pexels-vanessa-garcia-6325982.webp" alt="Career">
+                                <span class="bc-category cat-career">Career</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Abhishek S.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Apr 2, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>7 min</span>
+                                </div>
+                                <h3 class="bc-title">How I Went From Freelancer to ₹12 LPA Dev in 18 Months — My Honest Story</h3>
+                                <p class="bc-excerpt">No overnight success, no shortcuts. Just a deliberate strategy, a lot of rejection, and eventually the role I'd been building toward.</p>
+                                <div class="bc-footer">
+                                    <img src="images/c3.webp" class="bc-avatar" alt="Abhishek">
+                                    <div>
+                                        <div class="bc-author-name">Abhishek S.</div>
+                                        <div class="bc-author-date">Founder & CEO</div>
+                                    </div>
+                                    <a href="404.html" class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 3 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-300" data-cat="tutorial">
+                            <div class="bc-thumb">
+                                <img src="images/dev ops.webp" alt="Tutorial">
+                                <span class="bc-category cat-tutorial">Tutorial</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Preston B.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Mar 29, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>12 min</span>
+                                </div>
+                                <h3 class="bc-title">Build a Full REST API with Node.js, Express & MongoDB in Under an Hour</h3>
+                                <p class="bc-excerpt">Step-by-step: from npm init to a live, authenticated API with full CRUD, input validation, and error handling deployed to Railway.</p>
+                                <div class="bc-footer">
+                                    <img src="images/p1.webp" class="bc-avatar" alt="Preston">
+                                    <div>
+                                        <div class="bc-author-name">Preston B.</div>
+                                        <div class="bc-author-date">Lead Mentor</div>
+                                    </div>
+                                    <a href="404.html" class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 4 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-100" data-cat="ai">
+                            <div class="bc-thumb">
+                                <img src="images/ml ds.webp" alt="AI">
+                                <span class="bc-category cat-ai">AI & Future</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Priya R.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Mar 24, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>6 min</span>
+                                </div>
+                                <h3 class="bc-title">Will AI Replace Frontend Developers? The Honest Answer in 2026</h3>
+                                <p class="bc-excerpt">Not the clickbait take. A measured look at what AI tools are actually replacing, what they're augmenting, and where human taste still wins.</p>
+                                <div class="bc-footer">
+                                    <img src="images/c2.webp" class="bc-avatar" alt="Priya">
+                                    <div>
+                                        <div class="bc-author-name">Priya R.</div>
+                                        <div class="bc-author-date">Head of Education</div>
+                                    </div>
+                                    <div class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 5 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-200" data-cat="tech">
+                            <div class="bc-thumb">
+                                <img src="images/react.webp" alt="React">
+                                <span class="bc-category cat-tech">Tech</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Miles M.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Mar 18, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>9 min</span>
+                                </div>
+                                <h3 class="bc-title">React 19 Server Components — What Actually Changed and Why It Matters</h3>
+                                <p class="bc-excerpt">Beyond the hype. A practical breakdown of React 19's server component model, when to use it, and a real migration story from Pages to App Router.</p>
+                                <div class="bc-footer">
+                                    <img src="images/c1.webp" class="bc-avatar" alt="Miles">
+                                    <div>
+                                        <div class="bc-author-name">Miles M.</div>
+                                        <div class="bc-author-date">Lead Mentor</div>
+                                    </div>
+                                    <div class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 6 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-300" data-cat="career">
+                            <div class="bc-thumb">
+                                <img src="images/arts and design.webp" alt="Portfolio">
+                                <span class="bc-category cat-career">Career</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Abhishek S.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Mar 12, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>5 min</span>
+                                </div>
+                                <h3 class="bc-title">Your Portfolio Is Costing You Jobs — Here's the Fix</h3>
+                                <p class="bc-excerpt">After reviewing 300+ developer portfolios, we found 7 patterns that kill opportunities immediately. Most are easy to fix in a weekend.</p>
+                                <div class="bc-footer">
+                                    <img src="images/c3.webp" class="bc-avatar" alt="Abhishek">
+                                    <div>
+                                        <div class="bc-author-name">Abhishek S.</div>
+                                        <div class="bc-author-date">Founder & CEO</div>
+                                    </div>
+                                    <div class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 7 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-100" data-cat="tutorial">
+                            <div class="bc-thumb">
+                                <img src="images/animaion.webp" alt="GSAP">
+                                <span class="bc-category cat-tutorial">Tutorial</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Abhishek S.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Mar 6, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>15 min</span>
+                                </div>
+                                <h3 class="bc-title">GSAP ScrollTrigger — A Complete Visual Guide with 8 Real Examples</h3>
+                                <p class="bc-excerpt">Pin sections, scrub timelines, and create scroll-driven masterpieces. Every ScrollTrigger option explained with live interactive examples.</p>
+                                <div class="bc-footer">
+                                    <img src="images/c3.webp" class="bc-avatar" alt="Abhishek">
+                                    <div>
+                                        <div class="bc-author-name">Abhishek S.</div>
+                                        <div class="bc-author-date">Founder & CEO</div>
+                                    </div>
+                                    <div class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 8 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-200" data-cat="design">
+                            <div class="bc-thumb">
+                                <img src="images/arts and design.webp" alt="Typography">
+                                <span class="bc-category cat-design">Design</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Priya R.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Feb 27, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>6 min</span>
+                                </div>
+                                <h3 class="bc-title">Typography Rules That Make UI Designers Stand Out from the Crowd</h3>
+                                <p class="bc-excerpt">Spacing, scale, hierarchy — most designers get the basics right. But the 5 advanced typographic rules in this post separate good from exceptional.</p>
+                                <div class="bc-footer">
+                                    <img src="images/c2.webp" class="bc-avatar" alt="Priya">
+                                    <div>
+                                        <div class="bc-author-name">Priya R.</div>
+                                        <div class="bc-author-date">Head of Education</div>
+                                    </div>
+                                    <div class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POST 9 -->
+                        <article class="blog-card animate-on-scroll fade-up delay-300" data-cat="ai">
+                            <div class="bc-thumb">
+                                <img src="images/ml ds.webp" alt="AI Tools">
+                                <span class="bc-category cat-ai">AI & Future</span>
+                            </div>
+                            <div class="bc-body">
+                                <div class="bc-meta">
+                                    <span>Preston B.</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>Feb 20, 2026</span>
+                                    <span class="bc-meta-dot"></span>
+                                    <span>8 min</span>
+                                </div>
+                                <h3 class="bc-title">The 7 AI Developer Tools That Actually Saved Me 10+ Hours a Week</h3>
+                                <p class="bc-excerpt">Not another ChatGPT list. These are the deeply integrated, daily-driver tools that have genuinely changed how our team writes, reviews, and ships code.</p>
+                                <div class="bc-footer">
+                                    <img src="images/p1.webp" class="bc-avatar" alt="Preston">
+                                    <div>
+                                        <div class="bc-author-name">Preston B.</div>
+                                        <div class="bc-author-date">Lead Mentor</div>
+                                    </div>
+                                    <div class="bc-arrow"><i data-lucide="arrow-up-right" style="width:18px;height:18px;"></i></div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Empty state -->
+                        <div class="empty-state" id="empty-state">
+                            <h3>No posts in this category yet</h3>
+                            <p>Check back soon — our mentors publish every week.</p>
+                        </div>
+
+                    </div><!-- /posts-grid -->
+
+                    <!-- Load More -->
+                    <div class="load-more-wrap animate-on-scroll fade-up">
+                        <a href="404.html" class="button type1">
+                            <span class="btn-txt" style="display:inline-flex;align-items:center;gap:10px;">
+                                Load More Articles <i data-lucide="refresh-cw" style="width:16px;height:16px;"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ===== RIGHT: SIDEBAR ===== -->
+                <aside class="sidebar animate-on-scroll fade-left delay-200">
+
+                    <!-- Newsletter -->
+                    <div class="sidebar-widget newsletter-widget">
+                        <h3 class="widget-title">Get articles in your inbox</h3>
+                        <p>Join 8,000+ readers getting fresh tech & design insights every Tuesday. No spam, ever.</p>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="your@email.com" class="newsletter-input">
+                            <button class="newsletter-submit">
+                                <i data-lucide="send" style="width:15px;height:15px;"></i> Subscribe Free
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Popular Posts -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Popular This Month</h3>
+                        <div class="popular-list">
+                            <div class="popular-item">
+                                <img src="images/ui.webp" class="popular-thumb" alt="Popular">
+                                <div class="popular-info">
+                                    <div class="popular-title">CSS Grid vs Flexbox: When to Use Each in 2026</div>
+                                    <div class="popular-meta">Miles M. · 14.2k reads</div>
+                                </div>
+                            </div>
+                            <div class="popular-item">
+                                <img src="images/full stack.webp" class="popular-thumb" alt="Popular">
+                                <div class="popular-info">
+                                    <div class="popular-title">How to Pass a Technical Interview at a Top Startup</div>
+                                    <div class="popular-meta">Abhishek S. · 11.8k reads</div>
+                                </div>
+                            </div>
+                            <div class="popular-item">
+                                <img src="images/arts and design.webp" class="popular-thumb" alt="Popular">
+                                <div class="popular-info">
+                                    <div class="popular-title">Figma Auto-Layout: The Complete 2026 Guide</div>
+                                    <div class="popular-meta">Priya R. · 9.4k reads</div>
+                                </div>
+                            </div>
+                            <div class="popular-item">
+                                <img src="images/full stack.webp" class="popular-thumb" alt="Popular">
+                                <div class="popular-info">
+                                    <div class="popular-title">Async/Await vs Promises: A Visual Explainer</div>
+                                    <div class="popular-meta">Preston B. · 8.1k reads</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Browse Topics</h3>
+                        <div class="tags-cloud">
+                            <a href="404.html" class="tag-pill">JavaScript</a>
+                            <a href="404.html" class="tag-pill">React</a>
+                            <a href="404.html" class="tag-pill">CSS</a>
+                            <a href="404.html" class="tag-pill">Figma</a>
+                            <a href="404.html" class="tag-pill">Node.js</a>
+                            <a href="404.html" class="tag-pill">TypeScript</a>
+                            <a href="404.html" class="tag-pill">AI Tools</a>
+                            <a href="404.html" class="tag-pill">Career</a>
+                            <a href="404.html" class="tag-pill">GSAP</a>
+                            <a href="404.html" class="tag-pill">Next.js</a>
+                            <a href="404.html" class="tag-pill">MongoDB</a>
+                            <a href="404.html" class="tag-pill">UX Research</a>
+                            <a href="404.html" class="tag-pill">Portfolio</a>
+                            <a href="404.html" class="tag-pill">Interview</a>
+                        </div>
+                    </div>
+
+                    <!-- Meet the Authors -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Meet the Authors</h3>
+                        <div class="mentor-widget-list">
+                            <div class="mentor-mini">
+                                <img src="images/c1.webp" class="mentor-mini-avatar" alt="Miles">
+                                <div>
+                                    <div class="mentor-mini-name">Miles M.</div>
+                                    <div class="mentor-mini-role">Frontend & React</div>
+                                </div>
+                                <a href="404.html" class="mentor-mini-arrow"><i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i></a>
+                            </div>
+                            <div class="mentor-mini">
+                                <img src="images/c2.webp" class="mentor-mini-avatar" alt="Priya">
+                                <div>
+                                    <div class="mentor-mini-name">Priya R.</div>
+                                    <div class="mentor-mini-role">UI/UX Design</div>
+                                </div>
+                                <a href="404.html" class="mentor-mini-arrow"><i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i></a>
+                            </div>
+                            <div class="mentor-mini">
+                                <img src="images/c3.webp" class="mentor-mini-avatar" alt="Abhishek">
+                                <div>
+                                    <div class="mentor-mini-name">Abhishek S.</div>
+                                    <div class="mentor-mini-role">Founder, Career</div>
+                                </div>
+                                <a href="404.html" class="mentor-mini-arrow"><i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i></a>
+                            </div>
+                            <div class="mentor-mini">
+                                <img src="images/p1.webp" class="mentor-mini-avatar" alt="Preston">
+                                <div>
+                                    <div class="mentor-mini-name">Preston B.</div>
+                                    <div class="mentor-mini-role">Backend & DevOps</div>
+                                </div>
+                                <a href="404.html" class="mentor-mini-arrow"><i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div><!-- /blog-grid-wrap -->
+
+        </div><!-- /container -->
+    </main>
+
+    <!-- ====================== DARK QUOTE BAND ====================== -->
+    <section class="quote-band">
+        <div class="quote-blob qb-1"></div>
+        <div class="quote-blob qb-2"></div>
+        <div class="container">
+            <div class="quote-inner animate-on-scroll scale-in">
+                <span class="quote-mark">"</span>
+                <p class="quote-text">The best investment you can make is in your own skills. The returns compound every single year.</p>
+                <span class="quote-author">— Abhishek S., Founder of Stackly</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== NEWSLETTER SECTION ====================== -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-inner animate-on-scroll scale-in">
+                <span class="section-label">Stay in the loop</span>
+                <h2>Never miss an<br><span style="font-style:italic;font-family:serif;">insight</span></h2>
+                <p>Every Tuesday we send one carefully written article, one tool recommendation, and one career tip. That's it.</p>
+                <div class="nl-form">
+                    <input type="email" class="nl-input" placeholder="your@email.com">
+                    <button class="nl-btn">
+                        Subscribe <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
+                    </button>
+                </div>
+                <p class="nl-note">Join 8,400+ readers · No spam, unsubscribe any time</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== FOOTER (IDENTICAL TO INDEX) ====================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-block animate-on-scroll fade-up delay-100">
+                    <a href="index.html" class="logo" style="margin-bottom:24px;display:inline-flex;width:fit-content;">
+                        <img src="whitelogo.webp" alt="Stackly Logo" style="height:32px;width:auto;">
+                    </a>
+                    <p>
+                        <strong>Campus Office</strong>
+                        45 Tech Street,<br>Salem, TN<br>636001, India
+                    </p>
+                    <p>
+                        <strong>Email</strong>
+                        <a href="404.html" style="margin-bottom:0;color:rgba(255,255,255,0.5);">hello@stackly.com</a>
+                    </p>
+                    <div class="social-label-footer">Follow Us</div>
+                    <div class="social-strip-footer">
+                        <a href="404.html" class="social-btn-footer" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                        </a>
+                        <a href="404.html" class="social-btn-footer" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        </a>
+                        <a href="404.html" class="social-btn-footer" aria-label="Linkedin">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                        <a href="404.html" class="social-btn-footer" aria-label="Youtube">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><path d="m10 15 5-3-5-3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-200">
+                    <h3>Main Pages</h3>
+                    <a href="404.html">Home</a>
+                    <a href="404.html">About</a>
+                    <a href="404.html">Courses</a>
+                    <a href="404.html">Blog</a>
+                    <a href="404.html">Contact</a>
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-300">
+                    <h3>Utility Pages</h3>
+                    <a href="404.html">Style Guide</a>
+                    <a href="404.html">Licenses</a>
+                    <a href="404.html">Change Log</a>
+                    <a href="404.html">404</a>
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-400">
+                    <h3>Support</h3>
+                    <a href="404.html">About</a>
+                    <a href="404.html">Contact Us</a>
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-500">
+                    <h3>Programs</h3>
+                    <a href="404.html">B.Sc. in Computer Science</a>
+                    <a href="404.html">Postgraduate</a>
+                    <a href="404.html">Professional Studies</a>
+                    <a href="404.html">Certificate &amp; Courses</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-massive">
+            <h1 class="footer-massive-text">Stackly</h1>
+            <div class="footer-bottom">Made by Stackly | powered by HTML/CSS</div>
+        </div>
+    </footer>
+
+    <!-- ====================== SCRIPTS ====================== -->
+    <script src="gsap.min.js"></script>
+    <script src="ScrollTrigger.min.js"></script>
+    <script src="SplitText.min.js"></script>
+    <script>
+        /* ---------- Icons ---------- */
+        lucide.createIcons();
+
+        /* ---------- Reading Progress Bar ---------- */
+        const progressBar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const scrollTop  = document.documentElement.scrollTop;
+            const docHeight  = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const pct        = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+        });
+
+        /* ---------- Navbar Scroll Effect ---------- */
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        /* ---------- Category Strip Shadow ---------- */
+        const catStrip = document.getElementById('cat-strip');
+        window.addEventListener('scroll', () => {
+            catStrip.classList.toggle('shadowed', window.scrollY > 200);
+        });
+
+        /* ---------- Mobile Menu ---------- */
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu    = document.getElementById('mobile-menu');
+        let menuOpen = false;
+        mobileMenuBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('active', menuOpen);
+            mobileMenuBtn.classList.toggle('is-active', menuOpen);
+            document.body.style.overflow = menuOpen ? 'hidden' : '';
+        });
+
+        /* ---------- Category Filtering ---------- */
+        const catBtns      = document.querySelectorAll('.cat-btn');
+        const blogCards    = document.querySelectorAll('#posts-grid .blog-card');
+        const featuredPost = document.getElementById('featured-post');
+        const emptyState   = document.getElementById('empty-state');
+        let activeCat      = 'all';
+
+        function applyFilter() {
+            let visible = 0;
+
+            // Handle featured post visibility
+            const fpCat = featuredPost.dataset.cat || 'tech';
+            featuredPost.style.display = (activeCat === 'all' || fpCat === activeCat) ? '' : 'none';
+
+            blogCards.forEach(card => {
+                const cat   = card.dataset.cat || '';
+                const show  = activeCat === 'all' || cat === activeCat;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            emptyState.classList.toggle('show', visible === 0);
+        }
+
+        catBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                catBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCat = btn.dataset.cat;
+                applyFilter();
+            });
+        });
+
+        /* ---------- GSAP Setup ---------- */
+        gsap.registerPlugin(ScrollTrigger, SplitText);
+
+        /* Scroll-entry animations */
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            let y = 0, x = 0, scale = 1;
+            if (el.classList.contains('fade-up'))    y      = 40;
+            if (el.classList.contains('fade-down'))  y      = -40;
+            if (el.classList.contains('fade-left'))  x      = 40;
+            if (el.classList.contains('fade-right')) x      = -40;
+            if (el.classList.contains('scale-in'))   scale  = 0.92;
+
+            let delay = 0;
+            if (el.classList.contains('delay-100')) delay = 0.1;
+            if (el.classList.contains('delay-200')) delay = 0.2;
+            if (el.classList.contains('delay-300')) delay = 0.3;
+            if (el.classList.contains('delay-400')) delay = 0.4;
+            if (el.classList.contains('delay-500')) delay = 0.5;
+            if (el.classList.contains('delay-600')) delay = 0.6;
+
+            el.style.transition = 'none';
+
+            gsap.fromTo(el,
+                { opacity: 0, y, x, scale },
+                {
+                    opacity: 1, y: 0, x: 0, scale: 1,
+                    duration: 0.85, delay, ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        /* SplitText headline animations */
+        document.querySelectorAll('.hero-title, .section-title, .quote-text').forEach(title => {
+            title.style.opacity = 1;
+            const split = new SplitText(title, { type: 'words,chars' });
+            gsap.from(split.chars, {
+                duration: 0.75,
+                opacity: 0, y: 50, rotationX: -40,
+                transformOrigin: '0% 50% -50',
+                stagger: 0.018,
+                ease: 'back.out(1.7)',
+                scrollTrigger: { trigger: title, start: 'top 88%' }
+            });
+        });
+
+        /* Newsletter form micro-interaction */
+        document.querySelectorAll('.newsletter-submit, .nl-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Find nearest input
+                const formWrap = btn.closest('.newsletter-form, .nl-form');
+                const emailInput = formWrap ? formWrap.querySelector('input[type="email"], input.newsletter-input, input.nl-input') : null;
+                
+                if (emailInput) {
+                    const email = emailInput.value.trim();
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    
+                    if (!emailRegex.test(email)) {
+                        emailInput.style.borderColor = '#ef4444';
+                        emailInput.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.1)';
+                        return;
+                    }
+                    
+                    // Clear error style
+                    emailInput.style.borderColor = '';
+                    emailInput.style.boxShadow = '';
+                }
+
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i data-lucide="loader" class="spin" style="width:15px;height:15px;"></i> Validating...';
+                lucide.createIcons();
+                
+                // Add spin if not exists
+                if (!document.getElementById('spin-style-nl')) {
+                    const s = document.createElement('style');
+                    s.id = 'spin-style-nl';
+                    s.innerHTML = '@keyframes spin { 100% { transform: rotate(360deg); } } .spin { animation: spin 1s linear infinite; }';
+                    document.head.appendChild(s);
+                }
+
+                setTimeout(() => {
+                    window.location.href = '404.html';
+                }, 1000);
+            });
+        });
+
+    </script>
+</body>
+</html>

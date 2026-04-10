@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Stackly — Get in Touch</title>
+    <meta name="description" content="Have questions about our courses or mentorship programs? Contact the Stackly team in Salem today.">
+
+    <!-- Local Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Manrope';
+            src: url('./fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSg.woff2') format('woff2');
+            font-weight: 200 800;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* ============================================================
+           RESET & CSS VARIABLES
+        ============================================================ */
+        :root {
+            --brand-dark: #000000;
+            --text-main: #000000;
+            --text-muted: #666666;
+            --text-light: #999999;
+            --bg-light: #f5f5f5;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --border-dark: #d1d5db;
+            --transition: all 0.3s ease;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-pill: 999px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: var(--text-main);
+            background-color: var(--white);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        /* ============================================================
+           BUTTON
+        ============================================================ */
+        .button {
+            height: 50px; display: inline-flex; align-items: center; justify-content: center;
+            padding: 0 32px; position: relative; background-color: transparent;
+            cursor: pointer; border: 2px solid var(--brand-dark); overflow: hidden;
+            border-radius: var(--radius-pill); color: var(--brand-dark); transition: all 0.5s ease-in-out;
+        }
+        .btn-txt { z-index: 1; font-weight: 800; letter-spacing: 2px; color: inherit; transition: inherit; }
+        .button.type1::after { content: ""; position: absolute; left: 0; top: 0; transition: all 0.5s ease-in-out; background-color: var(--brand-dark); border-radius: var(--radius-pill); visibility: hidden; height: 10px; width: 10px; z-index: -1; }
+        .button:hover { box-shadow: 1px 1px 20px var(--brand-dark); color: var(--white) !important; border-color: var(--brand-dark); }
+        .button.type1:hover::after { visibility: visible; transform: scale(100) translateX(2px); }
+        .button.dark-bg { border-color: rgba(255,255,255,0.3); color: var(--white); }
+        .button.dark-bg.type1::after { background-color: var(--white); }
+        .button.dark-bg:hover { box-shadow: 1px 1px 20px rgba(255,255,255,0.2); color: var(--brand-dark) !important; }
+        .glass-panel { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+
+        /* ============================================================
+           NAVBAR
+        ============================================================ */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 150; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); padding: 24px 24px 0 24px; pointer-events: none; }
+        .navbar-wrapper { background-color: var(--brand-dark); border-radius: 100px; padding: 8px 24px; max-width: 1280px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 10px 30px rgba(0,0,0,0.3); pointer-events: auto; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .navbar.scrolled { padding-top: 16px; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; height: 56px; width: 100%; }
+        .logo { display: flex; align-items: center; gap: 12px; color: var(--white); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; }
+        .nav-links { display: none; gap: 40px; align-items: center; }
+        .nav-link { position: relative; color: var(--white); font-weight: 500; font-size: 0.95rem; opacity: 0.9; transition: opacity 0.3s; }
+        .nav-link:hover, .nav-link.active { opacity: 1; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: currentColor; transition: width 0.3s ease; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-actions { display: none; }
+        .navbar .nav-actions .button { border-color: rgba(255,255,255,0.2); color: var(--white); }
+        .navbar .nav-actions .button.type1::after { background-color: var(--white); }
+        .navbar .nav-actions .button:hover { color: var(--brand-dark); box-shadow: 1px 1px 20px rgba(255,255,255,0.2); }
+
+        .mobile-menu-btn { display: flex; flex-direction: column; justify-content: center; gap: 6px; width: 48px; height: 48px; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); align-items: center; z-index: 51; transition: all 0.3s ease; pointer-events: auto; cursor: pointer; }
+        .hamburger-line { width: 20px; height: 2px; background-color: var(--white); border-radius: 2px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); transform-origin: center; }
+        .mobile-menu-btn.is-active { background: rgba(255,255,255,0.15); border-color: transparent; }
+        .mobile-menu-btn.is-active .line-1 { transform: translateY(8px) rotate(45deg); }
+        .mobile-menu-btn.is-active .line-2 { opacity: 0; transform: translateX(10px); }
+        .mobile-menu-btn.is-active .line-3 { transform: translateY(-8px) rotate(-45deg); }
+        @media (min-width: 1024px) { .nav-links { display: flex; } .nav-actions { display: block; } .mobile-menu-btn { display: none; } }
+
+        .mobile-menu { position: fixed; inset: 0; background-color: var(--brand-dark); z-index: 40; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; gap: 32px; visibility: hidden; opacity: 0; clip-path: circle(0% at 100% 0%); transition: opacity 0.5s ease, clip-path 0.5s ease, visibility 0s linear 0.5s; }
+        .mobile-menu.active { visibility: visible; opacity: 1; clip-path: circle(150% at 100% 0%); transition: opacity 0.5s ease, clip-path 0.5s ease, visibility 0s linear 0s; }
+        .mobile-menu a { color: var(--white); font-size: 2rem; font-weight: 600; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .mobile-menu.active a { opacity: 1; transform: translateY(0); }
+        .mobile-menu.active a:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu.active a:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-menu.active a:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-menu.active a:nth-child(4) { transition-delay: 0.4s; }
+        .mobile-menu.active a:nth-child(5) { transition-delay: 0.5s; }
+        .mobile-menu.active a:nth-child(6) { transition-delay: 0.6s; }
+
+        /* ============================================================
+           SCROLL ANIMATIONS
+        ============================================================ */
+        .animate-on-scroll { opacity: 0; transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+        .fade-up    { transform: translateY(40px); }
+        .fade-down  { transform: translateY(-40px); }
+        .fade-left  { transform: translateX(40px); }
+        .fade-right { transform: translateX(-40px); }
+        .scale-in   { transform: scale(0.92); }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translate(0) scale(1); }
+        .delay-100 { transition-delay: 100ms; } .delay-200 { transition-delay: 200ms; } .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; } .delay-500 { transition-delay: 500ms; } .delay-600 { transition-delay: 600ms; }
+
+        /* ============================================================
+           HERO
+        ============================================================ */
+        .hero {
+            position: relative;
+            padding: 180px 0 80px;
+            display: flex; align-items: center;
+            background: var(--brand-dark);
+            color: var(--white);
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .glow-blob { position: absolute; filter: blur(90px); border-radius: 50%; opacity: 0.08; z-index: 0; pointer-events: none; }
+        .blob-1 { background: #fff; width: 600px; height: 600px; top: -200px; right: -10%; }
+        .blob-2 { background: #fff; width: 400px; height: 400px; bottom: -100px; left: -10%; }
+
+        .hero-inner { position: relative; z-index: 10; text-align: center; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge { display: inline-flex; align-items: center; gap: 12px; padding: 4px 16px 4px 4px; border-radius: var(--radius-pill); margin-bottom: 28px; }
+        .badge-tag { background-color: var(--white); color: var(--brand-dark); font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: 1px; }
+        .badge-label { font-size: 0.875rem; color: rgba(255,255,255,0.75); }
+
+        .hero-title { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 800; line-height: 1; margin-bottom: 24px; letter-spacing: -0.04em; }
+        .highlight-text { font-style: italic; font-family: serif; text-shadow: 0 0 30px rgba(255,255,255,0.3); }
+
+        .hero-desc { font-size: clamp(1.05rem, 2vw, 1.25rem); color: rgba(255,255,255,0.65); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        /* ============================================================
+           CONTACT LAYOUT
+        ============================================================ */
+        .contact-section { padding: clamp(80px, 12vw, 120px) 0; position: relative; }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+        @media (min-width: 1024px) {
+            .contact-grid { grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start; }
+        }
+
+        /* ---- LEFT: INFO & CARDS ---- */
+        .contact-info-wrap { display: flex; flex-direction: column; gap: 40px; }
+        .contact-intro h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .contact-intro p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; }
+
+        .info-cards { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 640px) { .info-cards { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 1024px) { .info-cards { grid-template-columns: 1fr; } }
+
+        .info-card {
+            background: var(--bg-light); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 32px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .info-card:hover { transform: translateY(-4px); border-color: var(--brand-dark); }
+
+        .info-icon { width: 48px; height: 48px; background: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .info-icon i { width: 24px; height: 24px; color: var(--brand-dark); }
+        .info-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+        .info-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+        .info-card a { font-weight: 700; color: var(--brand-dark); display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s; }
+        .info-card a:hover { color: #555; }
+        .info-card a i { width: 14px; height: 14px; transition: transform 0.2s; }
+        .info-card a:hover i { transform: translateX(3px); }
+
+        .social-strip { display: flex; gap: 16px; margin-top: 20px; }
+        .social-btn { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--border-dark); display: flex; align-items: center; justify-content: center; color: var(--brand-dark); transition: all 0.3s; }
+        .social-btn:hover { background: var(--brand-dark); color: var(--white); border-color: var(--brand-dark); transform: translateY(-3px); }
+
+        /* ---- RIGHT: CONTACT FORM ---- */
+        .form-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: clamp(32px, 5vw, 56px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        }
+        .form-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+        .form-card > p { color: var(--text-muted); margin-bottom: 32px; font-size: 0.95rem; }
+
+        .contact-form { display: flex; flex-direction: column; gap: 24px; }
+        .form-row { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media (min-width: 640px) { .form-row { grid-template-columns: 1fr 1fr; } }
+
+        .form-group { position: relative; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--brand-dark); margin-bottom: 8px; }
+        .form-input {
+            width: 100%; padding: 14px 20px;
+            background: var(--bg-light); border: 1.5px solid transparent;
+            border-radius: var(--radius-md); font-family: 'Manrope', sans-serif;
+            font-size: 0.95rem; color: var(--text-main); outline: none; transition: all 0.3s;
+        }
+        .form-input::placeholder { color: var(--text-light); }
+        .form-input:focus { background: var(--white); border-color: var(--brand-dark); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+        textarea.form-input { resize: vertical; min-height: 140px; }
+
+        .form-checkbox { display: flex; align-items: flex-start; gap: 12px; margin-top: 8px; cursor: pointer; }
+        .form-checkbox input { mt: 4px; accent-color: var(--brand-dark); width: 16px; height: 16px; cursor: pointer; }
+        .form-checkbox span { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+        .submit-btn {
+            width: 100%; height: 56px; margin-top: 16px;
+            background: var(--brand-dark); color: var(--white);
+            border: none; border-radius: var(--radius-pill);
+            font-family: 'Manrope', sans-serif; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .submit-btn i { transition: transform 0.3s; }
+        .submit-btn:hover { background: #222; }
+        .submit-btn:hover i { transform: translateX(5px); }
+
+        /* Form success state */
+        .form-success {
+            display: none; text-align: center; padding: 40px 20px;
+            background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-lg);
+        }
+        .form-success.show { display: block; animation: scaleIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
+        @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
+        .success-icon { width: 64px; height: 64px; background: #22c55e; color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(34,197,94,0.3); }
+        .form-success h3 { font-size: 1.5rem; font-weight: 800; color: #166534; margin-bottom: 8px; }
+        .form-success p { color: #15803d; font-size: 1rem; }
+
+        /* ============================================================
+           FAQ SECTION
+        ============================================================ */
+        .faq-section { padding: clamp(60px, 10vw, 100px) 0; background: var(--bg-light); }
+        .faq-header { text-align: center; margin-bottom: 56px; max-width: 600px; margin-inline: auto; }
+
+        .faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+        .faq-item { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; transition: box-shadow 0.3s; }
+        .faq-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+
+        .faq-question {
+            width: 100%; text-align: left; padding: 24px 32px;
+            background: transparent; border: none; font-family: inherit;
+            font-size: 1.05rem; font-weight: 700; color: var(--brand-dark);
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+        }
+        .faq-icon {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--bg-light); display: flex; align-items: center; justify-content: center;
+            color: var(--brand-dark); transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+            flex-shrink: 0;
+        }
+        .faq-question:hover .faq-icon { background: var(--brand-dark); color: var(--white); }
+        .faq-item.active .faq-icon { transform: rotate(180deg); background: var(--brand-dark); color: var(--white); }
+
+        .faq-answer {
+            padding: 0 32px; max-height: 0; overflow: hidden; opacity: 0;
+            transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease, padding 0.4s ease;
+        }
+        .faq-answer p { font-size: 1rem; color: var(--text-muted); line-height: 1.6; padding-bottom: 24px; }
+        .faq-item.active .faq-answer { max-height: 400px; opacity: 1; }
+
+        /* ============================================================
+           MAP / IMAGE BANNER
+        ============================================================ */
+        .location-banner { height: 400px; width: 100%; position: relative; overflow: hidden; background: #000; }
+        .location-banner img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; mix-blend-mode: luminosity; }
+        .map-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+        .map-marker { background: var(--white); color: var(--brand-dark); padding: 16px 24px; border-radius: var(--radius-pill); font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .map-marker i { color: #f43f5e; fill: #f43f5e; }
+
+        /* ============================================================
+           FOOTER (identical)
+        ============================================================ */
+        .footer { background-color: var(--brand-dark); color: var(--white); position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.1); padding-bottom: 0; }
+        .footer-top { display: grid; grid-template-columns: 1fr; gap: clamp(32px,6vw,48px); padding-top: clamp(64px,12vw,96px); padding-bottom: clamp(48px,10vw,64px); }
+        @media (min-width: 640px)  { .footer-top { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .footer-top { grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 24px; } }
+        .footer-block h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 24px; color: var(--white); }
+        .footer-block p  { font-size: 1rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 24px; }
+        .footer-block p strong { font-weight: 700; color: var(--white); display: block; margin-bottom: 8px; }
+        .footer-block a  { display: block; font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 16px; transition: color 0.2s; }
+        .footer-block a:hover { color: var(--white); }
+        .footer-massive { position: relative; text-align: center; width: 100%; padding-top: 48px; background-color: var(--brand-dark); }
+        .footer-massive-text { font-size: clamp(5rem,23vw,25rem); font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin: 0; background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; user-select: none; }
+        .footer-bottom { position: absolute; bottom: 24px; left: 0; width: 100%; text-align: center; font-size: 0.875rem; color: rgba(255,255,255,0.5); font-weight: 500; z-index: 10; }
+
+        /* Utilities */
+        .section-title { font-size: clamp(2rem,5vw,3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+        /* Footer Socials - Premium Redesign */
+        .social-strip-footer { display: flex; gap: 14px; margin-top: 12px; padding: 0; }
+        .social-btn-footer { 
+            width: 42px; height: 42px; border-radius: 50%; 
+            border: 1px solid rgba(255,255,255,0.15); 
+            display: flex !important; align-items: center; justify-content: center; 
+            color: rgba(255,255,255,0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            background: rgba(255,255,255,0.03); 
+            margin-bottom: 0 !important; padding: 0 !important; 
+            text-decoration: none !important;
+        }
+        .social-btn-footer:hover { 
+            background: rgba(255,255,255,0.1); 
+            color: #ffffff !important; 
+            border-color: rgba(255,255,255,0.4); 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .social-btn-footer svg { width: 19px; height: 19px; color: inherit; display: block; flex-shrink: 0; transition: transform 0.3s; }
+        .social-btn-footer:hover svg { transform: scale(1.1); }
+        .social-label-footer { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-top: 24px; margin-bottom: 12px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- ====================== NAVBAR ====================== -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-wrapper">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <img src="whitelogo.webp" alt="Stackly Logo" style="height:32px;width:auto;">
+                </a>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="courses.html" class="nav-link">Course</a>
+                    <a href="blog.html" class="nav-link">Blog</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="login.html" class="button type1"><span class="btn-txt">Login</span></a>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                    <span class="hamburger-line line-1"></span>
+                    <span class="hamburger-line line-2"></span>
+                    <span class="hamburger-line line-3"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="courses.html">Courses</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" class="button type1" style="margin-top: 16px;"><span class="btn-txt">Login</span></a>
+    </div>
+
+    <!-- ====================== HERO ====================== -->
+    <header class="hero">
+        <div class="glow-blob blob-1"></div>
+        <div class="glow-blob blob-2"></div>
+
+        <div class="container">
+            <div class="hero-inner">
+                <div class="hero-badge glass-panel animate-on-scroll fade-down">
+                    <span class="badge-tag">Support 24/7</span>
+                    <span class="badge-label">We typically reply within 2 hours</span>
+                </div>
+
+                <h1 class="hero-title animate-on-scroll fade-up delay-100">
+                    Let's start a <br><span class="highlight-text">conversation</span>
+                </h1>
+
+                <p class="hero-desc animate-on-scroll fade-up delay-200">
+                    Whether you have a question about our courses, need technical support, or want to discuss corporate training, our team in Salem is here to help.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ====================== CONTACT LAYOUT ====================== -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+
+                <!-- LEFT: INFO -->
+                <div class="contact-info-wrap animate-on-scroll fade-right">
+                    <div class="contact-intro">
+                        <h2>How can we help?</h2>
+                        <p>Fill out the form and our admissions or support team will reach out to you directly. You can also contact us via email or visit our campus.</p>
+                    </div>
+
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <div class="info-icon"><i data-lucide="mail"></i></div>
+                            <h3>General Inquiries</h3>
+                            <p>For questions regarding courses, enrollment, and fees.</p>
+                            <a href="404.html">hello@stackly.com <i data-lucide="arrow-right"></i></a>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon"><i data-lucide="map-pin"></i></div>
+                            <h3>Salem Campus</h3>
+                            <p>45 Tech Street, IT Park Road<br>Salem, TN 636001</p>
+                            <a href="404.html">Get Directions <i data-lucide="arrow-right"></i></a>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon"><i data-lucide="phone"></i></div>
+                            <h3>Call Us</h3>
+                            <p>Mon-Fri from 9am to 6pm IST.</p>
+                            <a href="404.html">+91 98765 43210 <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <!-- RIGHT: FORM -->
+                <div class="form-card animate-on-scroll fade-up delay-200">
+                    <h3>Send a Message</h3>
+                    <p>We'll get back to you as soon as possible.</p>
+
+                    <!-- Success Message (Hidden by default) -->
+                    <div class="form-success" id="form-success">
+                        <div class="success-icon"><i data-lucide="check" style="width:32px;height:32px;"></i></div>
+                        <h3>Message Sent!</h3>
+                        <p>Thanks for reaching out. A member of the Stackly team will be in touch shortly.</p>
+                    </div>
+
+                    <!-- The Form -->
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" class="form-input" placeholder="John" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" class="form-input" placeholder="Doe">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" class="form-input" required style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 16px center; background-size: 16px;">
+                                <option value="" disabled selected>Select an inquiry type</option>
+                                <option value="course">Course Details & Enrollment</option>
+                                <option value="support">Technical Support</option>
+                                <option value="corporate">Corporate Training</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" class="form-input" placeholder="How can we help you?" required></textarea>
+                        </div>
+
+                        <label class="form-checkbox">
+                            <input type="checkbox" required>
+                            <span>I agree to Stackly's Privacy Policy and terms of service.</span>
+                        </label>
+
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            Send Message <i data-lucide="send" style="width:18px;height:18px;"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- ====================== FAQ SECTION ====================== -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-header animate-on-scroll fade-up">
+                <span class="section-label">Quick Answers</span>
+                <h2 class="section-title">Frequently Asked <span style="font-style:italic;font-family:serif;">Questions</span></h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item animate-on-scroll fade-up delay-100">
+                    <button class="faq-question">
+                        Are the courses fully online or offline?
+                        <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We offer both hybrid and fully online options. Local students in Salem can attend our weekend campus workshops, while all core curriculum, video lectures, and mentor code-reviews are accessible 100% online from anywhere.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item animate-on-scroll fade-up delay-200">
+                    <button class="faq-question">
+                        Do I need prior coding experience?
+                        <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Not for our beginner tracks. Courses labeled "Beginner" (like our Frontend Bootcamp and Python Fundamentals) start from absolute scratch. However, our "Advanced" courses do require a basic understanding of programming logic.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item animate-on-scroll fade-up delay-300">
+                    <button class="faq-question">
+                        Do you offer job placement assistance?
+                        <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! We have an active hiring network across TN and Bangalore. Students who complete the full bootcamp track with a verified portfolio receive resume reviews, mock interviews, and direct referrals to partner companies.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item animate-on-scroll fade-up delay-100">
+                    <button class="faq-question">
+                        What forms of payment do you accept?
+                        <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We accept all major credit/debit cards, UPI, Google Pay, and Net Banking. For our larger bootcamps, we also offer 3-month and 6-month EMI options at 0% interest.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== FOOTER (IDENTICAL) ====================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-block animate-on-scroll fade-up delay-100">
+                    <a href="index.html" class="logo" style="margin-bottom:24px;display:inline-flex;width:fit-content;">
+                        <img src="whitelogo.webp" alt="Stackly Logo" style="height:32px;width:auto;">
+                    </a>
+                    <p>
+                        <strong>Campus Office</strong>
+                        45 Tech Street,<br>Salem, TN<br>636001, India
+                    </p>
+                    <p>
+                        <strong>Email</strong>
+                        <a href="404.html" style="margin-bottom:0;color:rgba(255,255,255,0.5);">hello@stackly.com</a>
+                    </p>
+                    <div class="social-label-footer">Follow Us</div>
+                    <div class="social-strip-footer">
+                        <a href="404.html" class="social-btn-footer" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                        </a>
+                        <a href="404.html" class="social-btn-footer" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        </a>
+                        <a href="404.html" class="social-btn-footer" aria-label="Linkedin">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                        <a href="404.html" class="social-btn-footer" aria-label="Youtube">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><path d="m10 15 5-3-5-3z"/></svg>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-200">
+                    <h3>Main Pages</h3>
+                    <a href="404.html">Home</a>
+                    <a href="404.html">About</a>
+                    <a href="404.html">Courses</a>
+                    <a href="404.html">Blog</a>
+                    <a href="404.html">Contact</a>
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-300">
+                    <h3>Utility Pages</h3>
+                    <a href="404.html">Style Guide</a>
+                    <a href="404.html">Licenses</a>
+                    <a href="404.html">Change Log</a>
+                    <a href="404.html">404</a>
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-400">
+                    <h3>Support</h3>
+                    <a href="404.html">About</a>
+                    <a href="404.html">Contact Us</a>
+                </div>
+                <div class="footer-block animate-on-scroll fade-up delay-500">
+                    <h3>Programs</h3>
+                    <a href="404.html">B.Sc. in Computer Science</a>
+                    <a href="404.html">Postgraduate</a>
+                    <a href="404.html">Professional Studies</a>
+                    <a href="404.html">Certificate &amp; Courses</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-massive">
+            <h1 class="footer-massive-text">Stackly</h1>
+            <div class="footer-bottom">Made by Stackly | powered by HTML/CSS</div>
+        </div>
+    </footer>
+
+    <!-- ====================== SCRIPTS ====================== -->
+    <script src="gsap.min.js"></script>
+    <script src="ScrollTrigger.min.js"></script>
+    <script src="SplitText.min.js"></script>
+    <script>
+        /* ---------- Icons ---------- */
+        lucide.createIcons();
+
+        /* ---------- Navbar Scroll Effect ---------- */
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        /* ---------- Mobile Menu ---------- */
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu    = document.getElementById('mobile-menu');
+        let menuOpen = false;
+        mobileMenuBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('active', menuOpen);
+            mobileMenuBtn.classList.toggle('is-active', menuOpen);
+            document.body.style.overflow = menuOpen ? 'hidden' : '';
+        });
+
+        /* ---------- FAQ Accordion ---------- */
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const btn = item.querySelector('.faq-question');
+            btn.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                // Close all others
+                faqItems.forEach(i => i.classList.remove('active'));
+                // Toggle current
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        /* ---------- Form Submission Mock ---------- */
+        const form = document.getElementById('contact-form');
+        const successMsg = document.getElementById('form-success');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Button loading state
+            const originalHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i data-lucide="loader" class="spin" style="width:18px;height:18px;animation:spin 1s linear infinite;"></i> Sending...';
+            lucide.createIcons();
+            
+            // Add spin keyframe dynamically if not exists
+            if (!document.getElementById('spin-style')) {
+                const style = document.createElement('style');
+                style.id = 'spin-style';
+                style.innerHTML = '@keyframes spin { 100% { transform: rotate(360deg); } }';
+                document.head.appendChild(style);
+            }
+
+            // Fake API call
+            setTimeout(() => {
+                window.location.href = '404.html';
+            }, 1500);
+        });
+
+        /* ---------- GSAP Setup ---------- */
+        gsap.registerPlugin(ScrollTrigger, SplitText);
+
+        /* Scroll-entry animations */
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            let y = 0, x = 0, scale = 1;
+            if (el.classList.contains('fade-up'))    y      = 40;
+            if (el.classList.contains('fade-down'))  y      = -40;
+            if (el.classList.contains('fade-left'))  x      = 40;
+            if (el.classList.contains('fade-right')) x      = -40;
+            if (el.classList.contains('scale-in'))   scale  = 0.95;
+
+            let delay = 0;
+            if (el.classList.contains('delay-100')) delay = 0.1;
+            if (el.classList.contains('delay-200')) delay = 0.2;
+            if (el.classList.contains('delay-300')) delay = 0.3;
+            if (el.classList.contains('delay-400')) delay = 0.4;
+            if (el.classList.contains('delay-500')) delay = 0.5;
+
+            el.style.transition = 'none';
+
+            gsap.fromTo(el,
+                { opacity: 0, y, x, scale },
+                {
+                    opacity: 1, y: 0, x: 0, scale: 1,
+                    duration: 0.85, delay, ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        /* SplitText headline animations */
+        document.querySelectorAll('.hero-title, .section-title').forEach(title => {
+            title.style.opacity = 1;
+            const split = new SplitText(title, { type: 'words,chars' });
+            gsap.from(split.chars, {
+                duration: 0.75,
+                opacity: 0, y: 50, rotationX: -40,
+                transformOrigin: '0% 50% -50',
+                stagger: 0.015,
+                ease: 'back.out(1.7)',
+                scrollTrigger: { trigger: title, start: 'top 90%' }
+            });
+        });
+    </script>
+</body>
+</html>

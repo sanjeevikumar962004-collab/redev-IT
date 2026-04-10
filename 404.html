@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Stackly</title>
+    
+    <style>
+        @font-face {
+            font-family: 'Manrope';
+            src: url('./fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSg.woff2') format('woff2');
+            font-weight: 200 800; font-style: normal; font-display: swap;
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --brand-dark: #000000;
+            --white: #ffffff;
+            --text-muted: #666666;
+            --bg-light: #f5f5f5;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--white);
+            color: var(--brand-dark);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .error-container {
+            max-width: 600px;
+            padding: 40px;
+            z-index: 2;
+        }
+
+        .error-code {
+            font-size: clamp(8rem, 20vw, 15rem);
+            font-weight: 800;
+            line-height: .8;
+            letter-spacing: -10px;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .error-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        /* Premium Button Style (Matching index.html) */
+        .btn {
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+            position: relative;
+            background-color: var(--brand-dark);
+            cursor: pointer;
+            border: 2px solid var(--brand-dark);
+            overflow: hidden;
+            border-radius: 30px;
+            color: var(--white);
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--brand-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Abstract Background Elements */
+        .blob {
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            background: rgba(0,0,0,0.03);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+        }
+        .blob-1 { top: -10%; left: -10%; }
+        .blob-2 { bottom: -10%; right: -10%; }
+
+        .line-art {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <main class="error-container">
+        <div class="error-code anim-split">404</div>
+        <h1 class="error-title anim-up">Oops! You've drifted into space.</h1>
+        <p class="error-desc anim-up">The page you're looking for was moved, removed, renamed, or might never have existed. Let's get you back on track.</p>
+        
+        <div class="anim-up">
+            <a href="index.html" class="btn">
+                <i data-lucide="arrow-left" style="width: 20px; height: 20px;"></i>
+                Back to Home
+            </a>
+        </div>
+    </main>
+
+    <script src="gsap.min.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // GSAP Animations
+        gsap.from(".error-code", {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power4.out",
+            delay: 0.2
+        });
+
+        gsap.from(".anim-up", {
+            y: 40,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            delay: 0.6
+        });
+
+        // Interactive blobs
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            gsap.to(".blob-1", {
+                x: x * 50,
+                y: y * 50,
+                duration: 1.5,
+                ease: "power2.out"
+            });
+            
+            gsap.to(".blob-2", {
+                x: -x * 50,
+                y: -y * 50,
+                duration: 1.5,
+                ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>
