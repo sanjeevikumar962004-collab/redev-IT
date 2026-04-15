@@ -914,10 +914,12 @@ function closeSB(){sidebar.classList.remove('open');overlay.classList.remove('sh
 toggleBtn?.addEventListener('click',openSB);
 overlay.addEventListener('click',closeSB);
 
-/* Logout */
-document.getElementById('logout-btn').addEventListener('click',()=>{
-    localStorage.removeItem('stackly_user');
-    window.location.href='login.html';
+/* Logout — handled via onclick in HTML, no logout-btn element exists */
+document.querySelectorAll('.nav-item.red').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        localStorage.removeItem('stackly_user');
+        window.location.href='index.html';
+    });
 });
 
 /* User Data */
@@ -927,7 +929,7 @@ if(uData.name){
     document.getElementById('user-greet').textContent=uData.name.split(' ')[0];
     document.getElementById('wb-name').textContent=uData.name;
 }
-if(uData.email)document.getElementById('user-email').textContent=uData.email;
+if(uData.email) document.getElementById('user-email').textContent=uData.email;
 
 /* Nav active */
 document.querySelectorAll('.nav-item:not(.red)').forEach(item=>{
